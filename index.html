@@ -1,34 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>To-Do List App</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Pink To-Do List</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="app">
     <header>
-      <p class="eyebrow">STAY ORGANIZED</p>
+      <div class="flower">🌸</div>
       <h1>My To-Do List</h1>
-      <p class="subtitle">Small steps make big progress.</p>
+      <p>Plan your day, one task at a time.</p>
     </header>
 
     <form id="task-form" class="task-form">
-      <label class="sr-only" for="task-input">Enter a task</label>
-      <input id="task-input" type="text" placeholder="What do you need to do?" maxlength="120" autocomplete="off" required>
-      <button type="submit">Add Task</button>
+      <label for="task-input">Task</label>
+      <input id="task-input" type="text" placeholder="What do you need to do?" maxlength="120" required />
+      <label for="task-time">Time</label>
+      <input id="task-time" type="time" required />
+      <button type="submit">+ Add Task</button>
     </form>
 
-    <section class="task-summary" aria-live="polite">
-      <span id="task-count">0 tasks left</span>
-      <button id="clear-completed" class="text-button" type="button">Clear completed</button>
+    <section class="tasks-section" aria-live="polite">
+      <div class="section-heading">
+        <h2>Today's Tasks</h2>
+        <span id="task-count">0 tasks</span>
+      </div>
+      <ul id="task-list" class="task-list"></ul>
+      <p id="empty-message" class="empty-message">No tasks yet. Add your first task above! 💗</p>
     </section>
-
-    <ul id="task-list" class="task-list" aria-label="Your tasks"></ul>
-    <p id="empty-state" class="empty-state">No tasks yet. Add your first task above!</p>
-
-    <footer>Tasks are saved in this browser automatically.</footer>
+    <footer>Made with 💗 · Your tasks are saved in this browser.</footer>
   </main>
   <script src="script.js"></script>
 </body>
