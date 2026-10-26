@@ -1,21 +1,18 @@
-# To-Do List App
+# Pink To-Do List App
 
-A beginner-friendly student project built with HTML, CSS, and JavaScript.
+A beginner-friendly HTML, CSS, and JavaScript project with a pink gradient background.
 
 ## Features
-- Add tasks
-- Mark tasks as completed
-- Delete individual tasks
-- Clear all completed tasks
-- Automatically save tasks in browser Local Storage
+- Add a task with a scheduled time
+- Display the task and time together
+- Sort tasks by scheduled time
+- Mark tasks as complete or incomplete
+- Delete tasks
+- Save tasks in browser local storage
 - Responsive layout for mobile and desktop
 
 ## Run locally
-Open `index.html` in your web browser.
+Open `index.html` in a web browser. No installation is required.
 
 ## Publish with GitHub Pages
-1. Upload `index.html`, `style.css`, and `script.js` to your `todo-list-app` repository.
-2. In GitHub, open **Settings → Pages**.
-3. Under Build and deployment, choose **Deploy from a branch**.
-4. Select your main branch and the root folder, then save.
-5. Your site should be available at `https://jikkigangavathi-droid.github.io/todo-list-app/` after deployment finishes.
+Upload `index.html`, `style.css`, and `script.js` to the root of your GitHub repository, commit the changes, then enable GitHub Pages from the repository's Settings → Pages.

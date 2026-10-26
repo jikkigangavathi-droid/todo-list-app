@@ -1,10 +1,10 @@
 const form = document.getElementById('task-form');
 const taskInput = document.getElementById('task-input');
-const taskTime = document.getElementById('task-time');
+const timeInput = document.getElementById('task-time');
 const taskList = document.getElementById('task-list');
 const emptyMessage = document.getElementById('empty-message');
 const taskCount = document.getElementById('task-count');
-const STORAGE_KEY = 'pink-todo-list-tasks';
+const STORAGE_KEY = 'pinkTodoTasksV1';
 
 let tasks = loadTasks();
 
@@ -21,21 +21,19 @@ function saveTasks() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
 }
 
-function formatTime(time) {
-  if (!time) return 'Time not set';
-  const [hours, minutes] = time.split(':').map(Number);
+function formatTime(value) {
+  if (!value) return 'Time not set';
+  const [hours, minutes] = value.split(':').map(Number);
   const date = new Date();
   date.setHours(hours, minutes, 0, 0);
-  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 }
 
 function renderTasks() {
   taskList.replaceChildren();
-  tasks.sort((a, b) => (a.time || '99:99').localeCompare(b.time || '99:99'));
-  emptyMessage.hidden = tasks.length > 0;
-  taskCount.textContent = `${tasks.length} ${tasks.length === 1 ? 'task' : 'tasks'}`;
+  const sortedTasks = [...tasks].sort((a, b) => a.time.localeCompare(b.time));
 
-  tasks.forEach(task => {
+  sortedTasks.forEach((task) => {
     const item = document.createElement('li');
     item.className = `task-item${task.completed ? ' completed' : ''}`;
 
@@ -45,20 +43,20 @@ function renderTasks() {
     completeButton.setAttribute('aria-label', task.completed ? 'Mark task incomplete' : 'Mark task complete');
     completeButton.textContent = task.completed ? '✓' : '';
     completeButton.addEventListener('click', () => {
-      task.completed = !task.completed;
+      tasks = tasks.map((entry) => entry.id === task.id ? { ...entry, completed: !entry.completed } : entry);
       saveTasks();
       renderTasks();
     });
 
     const details = document.createElement('div');
     details.className = 'task-details';
-    const text = document.createElement('span');
-    text.className = 'task-text';
-    text.textContent = task.text;
-    const time = document.createElement('span');
+    const title = document.createElement('div');
+    title.className = 'task-title';
+    title.textContent = task.text;
+    const time = document.createElement('div');
     time.className = 'task-time';
     time.textContent = `🕒 ${formatTime(task.time)}`;
-    details.append(text, time);
+    details.append(title, time);
 
     const deleteButton = document.createElement('button');
     deleteButton.className = 'delete-button';
@@ -66,7 +64,7 @@ function renderTasks() {
     deleteButton.textContent = 'Delete';
     deleteButton.setAttribute('aria-label', `Delete ${task.text}`);
     deleteButton.addEventListener('click', () => {
-      tasks = tasks.filter(entry => entry.id !== task.id);
+      tasks = tasks.filter((entry) => entry.id !== task.id);
       saveTasks();
       renderTasks();
     });
@@ -74,13 +72,17 @@ function renderTasks() {
     item.append(completeButton, details, deleteButton);
     taskList.append(item);
   });
+
+  emptyMessage.hidden = tasks.length > 0;
+  taskCount.textContent = `${tasks.length} ${tasks.length === 1 ? 'task' : 'tasks'}`;
 }
 
-form.addEventListener('submit', event => {
+form.addEventListener('submit', (event) => {
   event.preventDefault();
   const text = taskInput.value.trim();
-  const time = taskTime.value;
+  const time = timeInput.value;
   if (!text || !time) return;
+
   tasks.push({ id: `${Date.now()}-${Math.random().toString(16).slice(2)}`, text, time, completed: false });
   saveTasks();
   renderTasks();
